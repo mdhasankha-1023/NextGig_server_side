@@ -27,7 +27,7 @@ async function run() {
     // await client.connect();
 
     // database collections:
-    // const userCollection = client.db("NextGigDB").collection("users");
+    const userCollection = client.db("NextGigDB").collection("users");
     // const userCollection = client.db("NextGigDB").collection("jobs");
     // const userCollection = client.db("NextGigDB").collection("candidates");
     // const userCollection = client.db("NextGigDB").collection("topCompanies");
@@ -37,6 +37,19 @@ async function run() {
     // ===========================================
     //               work space start
     // ===========================================
+    
+    //Users api
+    app.post('/users', async(req, res)=> {
+        const user = req.body;
+        const isExisting = await userCollection.findOne({email: user?.email});
+        // console.log(isExisting)
+        if(isExisting){
+          return  res.send({message: 'Sign In successfully'})
+        }
+
+        const result = await userCollection.insertOne(user);
+        res.send(result)
+    }) 
 
 
 
