@@ -37,51 +37,83 @@ async function run() {
     // ===========================================
     //               work space start
     // ===========================================
-    
+
     //Users api
-    app.post('/users', async(req, res)=> {
-        const user = req.body;
-        const isExisting = await userCollection.findOne({email: user?.email});
-        // console.log(isExisting)
-        if(isExisting){
-          return  res.send({message: 'Sign In successfully'})
-        }
+    app.post('/users', async (req, res) => {
+      const user = req.body;
+      const isExisting = await userCollection.findOne({ email: user?.email });
+      // console.log(isExisting)
+      if (isExisting) {
+        return res.send({ message: 'Sign In successfully' })
+      }
 
-        const result = await userCollection.insertOne(user);
-        res.send(result)
-    }) 
-
-    app.get('/users', async(req, res)=> {
-        const result = await userCollection.find().toArray();
-        res.send(result)
+      const result = await userCollection.insertOne(user);
+      res.send(result)
     })
 
-    app.patch('/users/:id', async(req, res)=> {
-        const id = req.params.id;
-        const info =  req.body;
-        const filter = {_id: new ObjectId(id)}
-        const options = { upsert: true };
-        const updateDoc = {
-            $set: {
-                userName: info.userName,
-                email: info.email,
-                address: info.address,
-                about: info.about,
-                phone: info.phone,
-                picUrl: info.picUrl,
-                nationality: info.nationality,
-            }
-          };
-        const result = await userCollection.updateOne(filter, updateDoc, options);
-        res.send(result)
+    app.get('/users', async (req, res) => {
+      const result = await userCollection.find().toArray();
+      res.send(result)
+    })
+
+    app.patch('/users/:id', async (req, res) => {
+      const id = req.params.id;
+      const info = req.body;
+      const filter = { _id: new ObjectId(id) }
+      const options = { upsert: true };
+      const updateDoc = {
+        $set: {
+          userName: info.userName,
+          email: info.email,
+          address: info.address,
+          about: info.about,
+          phone: info.phone,
+          picUrl: info.picUrl,
+          nationality: info.nationality,
+        }
+      };
+      const result = await userCollection.updateOne(filter, updateDoc, options);
+      res.send(result)
     })
 
     // jobs api
-    app.post('/jobs', async(req, res)=> {
+    app.post('/jobs', async (req, res) => {
       const job = req.body;
       const result = await jobsCollection.insertOne(job);
       res.send(result)
-  })
+    })
+
+    app.get('/jobs', async (req, res) => {
+      const result = await jobsCollection.find().toArray();
+      res.send(result)
+    })
+
+    app.patch('/jobs/:id', async (req, res) => {
+      const id = req.params.id;
+      const info = req.body;
+      const filter = { _id: new ObjectId(id) }
+      const options = { upsert: true };
+      const updateDoc = {
+        $set: {
+
+          jobTitle: info.jobTitle,
+          userName: info.userName,
+          details: info.details,
+          email: info.email,
+          address: info.address,
+          salary: info.salary,
+          about: info.about,
+          phone: info.phone,
+          level: info.level,
+          post: info.post,
+          action: info.action,
+          variant: info.variant,
+          companyLogo: info.companyLogo,
+        }
+      };
+      const result = await jobsCollection.updateOne(filter, updateDoc, options);
+      res.send(result)
+    })
 
 
 
@@ -109,11 +141,11 @@ run().catch(console.log);
 
 
 // first get for testing
-app.get('/', (req, res)=> {
-    res.send('This is NextGig server is running')
+app.get('/', (req, res) => {
+  res.send('This is NextGig server is running')
 })
 
 // app listing
-app.listen(port, ()=> {
-    console.log('NextGig server is  running on Port:', port)
+app.listen(port, () => {
+  console.log('NextGig server is  running on Port:', port)
 })
