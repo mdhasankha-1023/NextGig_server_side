@@ -28,7 +28,7 @@ async function run() {
 
     // database collections:
     const userCollection = client.db("NextGigDB").collection("users");
-    // const userCollection = client.db("NextGigDB").collection("jobs");
+    const jobsCollection = client.db("NextGigDB").collection("jobs");
     // const userCollection = client.db("NextGigDB").collection("candidates");
     // const userCollection = client.db("NextGigDB").collection("topCompanies");
     // const userCollection = client.db("NextGigDB").collection("reviews");
@@ -68,6 +68,7 @@ async function run() {
                 address: info.address,
                 about: info.about,
                 phone: info.phone,
+                picUrl: info.picUrl,
                 nationality: info.nationality,
             }
           };
@@ -75,6 +76,12 @@ async function run() {
         res.send(result)
     })
 
+    // jobs api
+    app.post('/jobs', async(req, res)=> {
+      const job = req.body;
+      const result = await jobsCollection.insertOne(job);
+      res.send(result)
+  })
 
 
 
