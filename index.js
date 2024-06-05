@@ -29,9 +29,10 @@ async function run() {
     // database collections:
     const userCollection = client.db("NextGigDB").collection("users");
     const jobsCollection = client.db("NextGigDB").collection("jobs");
-    // const userCollection = client.db("NextGigDB").collection("candidates");
-    // const userCollection = client.db("NextGigDB").collection("topCompanies");
-    // const userCollection = client.db("NextGigDB").collection("reviews");
+    const candidateCollection = client.db("NextGigDB").collection("candidates");
+    const topCompanyCollection = client.db("NextGigDB").collection("topCompanies");
+    const reviewCollection = client.db("NextGigDB").collection("reviews");
+    const blogCollection = client.db("NextGigDB").collection("blogs");
 
 
     // ===========================================
@@ -122,6 +123,27 @@ async function run() {
       res.send(result)
     })
 
+    // candidates api
+    app.get('/candidates', async (req, res) => {
+      const result = await candidateCollection.find().toArray();
+      res.send(result)
+    })
+
+    // top company api
+    app.get('/topCompanies', async (req, res) => {
+      const result = await topCompanyCollection.find().toArray();
+      res.send(result)
+    })
+    // top reviews api
+    app.get('/reviews', async (req, res) => {
+      const result = await reviewCollection.find().toArray();
+      res.send(result)
+    })
+    // top blogs api
+    app.get('/blog', async (req, res) => {
+      const result = await blogCollection.find().toArray();
+      res.send(result)
+    })
 
 
 
