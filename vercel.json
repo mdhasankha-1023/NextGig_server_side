@@ -1,16 +1,43 @@
 {
     "version": 2,
     "builds": [
-        {
-            "src": "./index.js",
-            "use": "@vercel/node"
-        }
+      {
+        "src": "src/index.js",
+        "use": "@vercel/node"
+      }
     ],
     "routes": [
-        {
-            "src": "/(.*)",
-            "dest": "/",
-            "methods": ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"]
-        }
+      {
+        "src": "/(.*)",
+        "dest": "src/index.js"
+      }
+    ],
+    "env": {
+      "NODE_ENV": "production"
+    },
+    "rewrites": [
+      {
+        "source": "/old-path/(.*)",
+        "destination": "/new-path/$1"
+      }
+    ],
+    "redirects": [
+      {
+        "source": "/redirect-me",
+        "destination": "/new-destination",
+        "statusCode": 301
+      }
+    ],
+    "headers": [
+      {
+        "source": "/(.*)",
+        "headers": [
+          {
+            "key": "X-Content-Type-Options",
+            "value": "nosniff"
+          }
+        ]
+      }
     ]
-}
+  }
+  

@@ -10,8 +10,8 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "start": "index.js",
-    "dev": "nodemon index.js",
+    "start": "node api.js && index.js",
+    "dev": "node api.js && nodemon index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
